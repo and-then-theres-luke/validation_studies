@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <title>Users CR - Create Entry</title>
+</head>
+<body>
+    <main class="container">
+        <div class="row">
+            <p class="h1">Create New Entry</p>
+        </div>
+        {% with messages = get_flashed_messages() %}     <!-- declare a variable called messages -->
+            {% if messages %}                            <!-- check if there are any messages -->
+                {% for message in messages %}            <!-- loop through the messages -->
+                    <p>{{message}}</p>                   <!-- display each message in a paragraph tag -->
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form action="/create/process" method="POST">
+            <div class="row">
+                <div class="input-group">
+                    <div class="col">
+                        <label for="first_name">First Name:</label>
+                    </div>
+                    <div class="col">
+                        <input type="text" name="first_name" placeholder="First Name...">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="col">
+                        <label for="last_name">Last Name:</label>
+                    </div>
+                    <div class="col">
+                        <input type="text" name="last_name" placeholder="Last Name...">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="col">
+                        <label for="email">Email:</label>
+                    </div>
+                    <div class="col">
+                        <input type="email" name="email" placeholder="example@example.com">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="col">
+                        <button class="btn btn-primary" type="submit">Submit Entry</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

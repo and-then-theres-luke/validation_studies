@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <title>Users CR - Edit Entry</title>
+</head>
+<body>
+    <main class="container">
+        <div class="row">
+            <p class="h1">Edit User {{one_friend.id}}</p>
+        </div>
+        <form action="/update" method="POST">
+            <input type="hidden" name ='id' value="{{one_friend.id}}">
+            <div class="input-group row">
+                <div class="col">
+                    <label for="first_name">First Name:</label>
+                </div>
+                <div class="col">
+                    <input type="text" name="first_name" value={{one_friend.first_name}}>
+                </div>
+            </div>
+            <div class="input-group row">
+                <div class="col">
+                    <label for="last_name">Last Name:</label>
+                </div>
+                <div class="col">
+                    <input type="text" name="last_name" value="{{one_friend.last_name}}">
+                </div>
+            </div>
+            <div class="input-group row">
+                <div class="col">
+                    <label for="occupation">Occupation:</label>
+                </div>
+                <div class="col">
+                    <input type="text" name="occupation" value="{{one_friend.occupation}}">
+                </div>
+            </div>
+            <div class="input-group row pt-3">
+                <button class="btn btn-primary" type="submit">Submit Edits</button>
+                <a href="/read"><button class="btn btn-primary">Home</button></a>
+            </div>
+        </form>
+    </main>
+</body>
+</html>
+
+<!--
+    
+    -->

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Cookie Orders</title>
+</head>
+<body>
+    <h1>Change Order</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="/cookies/edit/process" method="POST">
+        <input type="hidden" name="id" value="{{one_order.id}}">
+        <div>
+            <div>
+                <label for="name">Name:</label>
+            </div>
+            <div>
+                <input type="text" name="name" id="name" value="{{one_order.name}}">
+            </div>
+        </div>
+        <div>
+            <div>
+                <label for="cookie_type">Cookie Type:</label>
+            </div>
+            <div>
+                <input type="text" name="cookie_type" id="cookie_type" value="{{one_order.cookie_type}}">
+            </div>
+        </div>
+        <div>
+            <div>
+                <label for="num_of_boxes">Number of Boxes</label>
+            </div>
+            <div>
+                <input type="number" name="num_of_boxes" value="{{one_order.num_of_boxes}}">
+            </div>
+        </div>
+        <div>
+            <button type="submit">Log</button>
+        </div>
+    </form>
+    <a href="/cookies"><button>Go Back</button></a>
+</body>
+</html>
+
+<!-- Format for adding images -->
+<!-- <img src="{{ url_for('static', filename='images/img.png') }}"> -->

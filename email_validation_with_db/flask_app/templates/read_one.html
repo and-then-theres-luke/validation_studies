@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <title>Users CR</title>
+</head>
+<body>
+    <main class="container">
+        <div class="row">
+            <p class="h1">User Info for {{one_friend.first_name}} {{one_friend.last_name}}</p>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>Name: {{one_friend.first_name}} {{one_friend.last_name}}</p>
+                <p>Email: {{one_friend.email}}</p>
+                <p>Created At: {{one_friend.created_at}}</p>
+                <p>Updated At: {{one_friend.updated_at}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <a href="/edit/{{one_friend.id}}">Edit</a> | <a href="/delete/{{one_friend.id}}">Delete</a>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a href="/read"><button class="btn btn-primary">Home</button></a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <title>Users CR - Create Entry</title>
+</head>
+<body>
+    <main>
+        <div class="form-separation">
+            <div class="form_from_user">
+                <h1>Register</h1>
+                {% with messages = get_flashed_messages() %}     <!-- declare a variable called messages -->
+                    {% if messages %}                            <!-- check if there are any messages -->
+                        {% for message in messages %}            <!-- loop through the messages -->
+                            <p>{{message}}</p>                   <!-- display each message in a paragraph tag -->
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form action="/register" method="POST">
+                    <table>
+                        <tr>
+                            <td>
+                                <label for="first_name">First Name:</label>
+                            </td>
+                            <td>
+                                <input type="text" name="first_name" placeholder="First Name...">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="last_name">Last Name:</label>
+                            </td>
+                            <td>
+                                <input type="text" name="last_name" placeholder="Last Name...">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="email">Email:</label>
+                            </td>
+                            <td>
+                                <input type="email" name="email" placeholder="example@example.com">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="password">Password:</label>
+                            </td>
+                            <td>
+                                <input type="password" name="password">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="confirm_password">Confirm Password:</label>
+                            </td>
+                            <td>
+                                <input type="password" name="confirm_password">
+                            </td>
+                        </tr>
+                    </table>
+                    <button class="btn btn-primary" type="submit">Submit Entry</button>
+                </form>
+            <div class="form_from_user">
+                <h1>Login</h1>
+                {% with messages = get_flashed_messages() %}     <!-- declare a variable called messages -->
+                    {% if messages %}                            <!-- check if there are any messages -->
+                        {% for message in messages %}            <!-- loop through the messages -->
+                            <p>{{message}}</p>                   <!-- display each message in a paragraph tag -->
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form action="/login" method="POST">
+                    <table>
+                        <tr>
+                            <td>
+                                <label for="email">Email:</label>
+                            </td>
+                            <td>
+                                <input type="email" name="email" placeholder="example@example.com">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="password">Password:</label>
+                            </td>
+                            <td>
+                                <input type="password" name="password">
+                            </td>
+                        </tr>
+                    </table>
+                    <button class="btn btn-primary" type="submit">Login</button>
+                </form>
+            </div>
+        </div>
+        <div>
+            <p>Just for fun, a list of all users in the db and their passwords</p>
+            <table>
+                <thead>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                </thead>
+                <tbody>
+                    {% for user in all_users %}
+                    <tr>
+                        <td>{{user.id}}</td>
+                        <td>{{user.first_name}}</td>
+                        <td>{{user.last_name}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.password}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
