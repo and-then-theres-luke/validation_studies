@@ -1,0 +1,5 @@
+.form_from_user {
+  display: flex;
+  flex-direction: column;
+
+}
