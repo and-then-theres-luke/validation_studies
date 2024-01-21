@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <title>The Wall</title>
+</head>
+<body>
+    <h1>Welcome, {{one_user.first_name}}</h1>
+    <p>What's on your mind? Create a new post</p>
+        {% with messages = get_flashed_messages(category_filter = ['post']) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    <form action="/make_post" method="POST">
+        <input type="hidden" value="{{one_user.id}}" name="user_id">
+        <div>
+            <textarea rows="6" cols="200" name="content"></textarea>
+        </div>
+        <div>
+            <button type="submit">Publish</button>
+        </div>
+    </form>
+    <table>
+        <tbody>
+            {% for one_post in all_posts%}
+            <tr>
+                <td>
+                    <p>{{one_post.creator.first_name}} {{one_post.creator.last_name}}</p>
+                    <p>{{one_post.created_at}}</p>
+                    <p>{{one_post.content}}</p>
+                    {% if one_post.creator.id == session['user_id'] %}
+                        <form action="/delete" method="POST">
+                            <button type="submit" value="{{one_post.id}}" name="post_id">Delete Post</button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!--
+        Pseudocode....
+        for post in posts
+            row
+                username by post.creator - date by post.created_at
+                post.content
+                if session['user_id'] == post.creator['id']
+                delete button
+                edit button
+    -->
+    <a href="/logout"><button>Logout and Clear Session</button></a>
+</body>
+</html>
