@@ -7,8 +7,102 @@
     <title>The Wall</title>
 </head>
 <body>
-    <h1>Welcome, {{one_user.first_name}}</h1>
-    <p>What's on your mind? Create a new post</p>
+    <h1>CodingDojo Wall</h1>
+    <h3>Welcome, {{one_user.first_name}}</h3>
+    <!-- <div>
+        {% with x = 0 %}
+            {% for message in one_user.inbox%}                We'll put this back in when we're ready
+                x++
+            {% endfor %}
+        <h5>You have {{x}} messages</h5>
+        {% endwith %}
+    </div> -->
+    <!-- PLACEHOLDER BEGIN -->
+    <div>
+        <h5>You have x new messages!</h5>
+    </div>
+    <table>
+        <tr>
+            <p>Luke said 5 minutes ago:</p>
+        </tr>
+        <tr>
+            <p>Hello!</p>
+        </tr>
+    </table>
+    <div>
+        <h5>Send Messages:</h5>
+    </div>
+    <table>
+        <tr>
+            <td>
+                <p>First User:</p>
+            </td>
+            <td>
+                <textarea name="content" cols="30" rows="5"></textarea>
+            </td>
+            <td>
+                <button>Send</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Second User:</p>
+            </td>
+            <td>
+                <textarea name="content" cols="30" rows="5"></textarea>
+            </td>
+            <td>
+                <button>Send</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Third User:</p>
+            </td>
+            <td>
+                <textarea name="content" cols="30" rows="5"></textarea>
+            </td>
+            <td>
+                <button>Send</button>
+            </td>
+        </tr>
+    </table>
+    <!-- PLACEHOLDER END -->
+    <!-- pseudocode 
+    container for messages
+        [number of messages] waiting for you (so i need a little loop here to count the messages)
+        with x = 0
+        for each message in inbox
+        x++
+        
+        container for individual messages
+        {user} said {time ago}
+        {content}
+        end container
+    end container
+    -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <!-- <p>What's on your mind? Create a new post</p>
         {% with messages = get_flashed_messages(category_filter = ['post']) %}
             {% if messages %}
                 {% for message in messages %}
@@ -43,16 +137,6 @@
             {% endfor %}
         </tbody>
     </table>
-    <!--
-        Pseudocode....
-        for post in posts
-            row
-                username by post.creator - date by post.created_at
-                post.content
-                if session['user_id'] == post.creator['id']
-                delete button
-                edit button
-    -->
     <a href="/logout"><button>Logout and Clear Session</button></a>
 </body>
-</html>
+</html> -->
