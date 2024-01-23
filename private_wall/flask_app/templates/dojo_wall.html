@@ -9,79 +9,48 @@
 <body>
     <h1>CodingDojo Wall</h1>
     <h3>Welcome, {{one_user.first_name}}</h3>
-    <!-- <div>
-        {% with x = 0 %}
-            {% for message in one_user.inbox%}                We'll put this back in when we're ready
-                x++
-            {% endfor %}
-        <h5>You have {{x}} messages</h5>
-        {% endwith %}
-    </div> -->
-    <!-- PLACEHOLDER BEGIN -->
     <div>
-        <h5>You have x new messages!</h5>
+        
+        <h5>You have {{x}} messages</h5>
     </div>
-    <table>
+    {% for one_message in one_user.inbox %}
+        <p>{{one_message.sender.first_name}} said 5 minutes ago:</p>
+        <p>{{one_message.content}}</p>
+        <form action="/delete" method="POST">
+            <input type="image" src="../static/images/trash.PNG" style="height:50px;width:50px">
+        </form>
+    {% endfor %}
+    <!-- <table>
         <tr>
             <p>Luke said 5 minutes ago:</p>
         </tr>
         <tr>
             <p>Hello!</p>
         </tr>
-    </table>
+    </table> -->
     <div>
         <h5>Send Messages:</h5>
     </div>
     <table>
+        {% for one_user in all_users %}
         <tr>
-            <td>
-                <p>First User:</p>
-            </td>
-            <td>
-                <textarea name="content" cols="30" rows="5"></textarea>
-            </td>
-            <td>
-                <button>Send</button>
-            </td>
+            <form action="/send_message" method="POST">
+                <input type="hidden" name="receiver_id" id="receiver_id" value="{{one_user.id}}"> 
+                <input type="hidden" name="sender_id" id="receiver_id" value="{{session['user_id']}}"> 
+                <td>
+                    <p>{{one_user.first_name}}:</p>
+                </td>
+                <td>
+                    <textarea name="content" cols="30" rows="5"></textarea>
+                </td>
+                <td>
+                    <button type="submit">Send</button>
+                </td>
+            </form>
         </tr>
-        <tr>
-            <td>
-                <p>Second User:</p>
-            </td>
-            <td>
-                <textarea name="content" cols="30" rows="5"></textarea>
-            </td>
-            <td>
-                <button>Send</button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p>Third User:</p>
-            </td>
-            <td>
-                <textarea name="content" cols="30" rows="5"></textarea>
-            </td>
-            <td>
-                <button>Send</button>
-            </td>
-        </tr>
+        {% endfor %}
     </table>
-    <!-- PLACEHOLDER END -->
-    <!-- pseudocode 
-    container for messages
-        [number of messages] waiting for you (so i need a little loop here to count the messages)
-        with x = 0
-        for each message in inbox
-        x++
-        
-        container for individual messages
-        {user} said {time ago}
-        {content}
-        end container
-    end container
-    -->
-    
+    <a href="/logout"><button>Logout and Clear Session</button></a>
     
     
     
@@ -137,6 +106,6 @@
             {% endfor %}
         </tbody>
     </table>
-    <a href="/logout"><button>Logout and Clear Session</button></a>
+
 </body>
 </html> -->

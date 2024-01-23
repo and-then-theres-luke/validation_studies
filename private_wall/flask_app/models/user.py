@@ -8,7 +8,7 @@ import re
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
 class User:
-    db = 'dojo_wall'
+    db = 'private_wall'
     def __init__( self , data ):
         self.id = data['id']
         self.first_name = data['first_name']
@@ -35,6 +35,18 @@ class User:
     def get_all_users(cls):
         query = "SELECT * FROM users;"
         results = connectToMySQL(cls.db).query_db(query) # The query always returns a list of dictionaries, think [{...},{...}] and these entries are locations in memory.
+        users = []
+        for person in results:
+            users.append(cls(person))
+        return users
+
+    @classmethod
+    def get_all_users_minus_current_user(cls, id):
+        data = {
+            'id' : id
+        }
+        query = "SELECT * FROM users WHERE id != %(id)s;"
+        results = connectToMySQL(cls.db).query_db(query, data) # The query always returns a list of dictionaries, think [{...},{...}] and these entries are locations in memory.
         users = []
         for person in results:
             users.append(cls(person))
@@ -70,15 +82,14 @@ class User:
         """
         one_user = connectToMySQL(cls.db).query_db(query, data)
         if not one_user:
-            flash("")
-            return redirect('/')
+            flash("No User Found")
+            return False
         return cls(one_user[0])
     
     ##### UPDATE METHOD ######
     
     @classmethod
     def update(cls, data):
-        print("The data looks like this (users.py line 43)", data)
         query = """
             UPDATE users
             SET first_name = %(first_name)s, 
@@ -134,7 +145,6 @@ class User:
     @staticmethod
     def validate_login_inputs(data):
         is_valid = True
-        list_of_users = User.get_all_users()
         if not data['email']:
             is_valid = False
             flash("Please input a valid email.", 'login')
@@ -144,12 +154,6 @@ class User:
         if not EMAIL_REGEX.match(data['email']): 
             flash("Invalid email address! Use less weird characters. Weirdo. So weird!", 'login')
             is_valid = False
-        is_valid = False
-        for user in list_of_users:
-            if data['email'] == user.email:
-                is_valid = True
-            else:
-                pass
-        if not is_valid:
-            flash("No user registered with that particular email.", 'login')
         return is_valid
+    
+    

@@ -20,7 +20,7 @@ class Message:
     ##### CREATE METHOD #####
     
     @classmethod
-    def create(cls, data):
+    def send_message(cls, data):
         query = """INSERT INTO messages (sender_id, receiver_id, content, created_at, updated_at) 
         VALUES (%(sender_id)s, %(receiver_id)s, %(content)s, NOW(), NOW())
         ;
@@ -50,17 +50,63 @@ class Message:
         return all_messages_by_sender
     
     @classmethod
-    def get_all_messages_by_recipient():
-        pass
-    
+    def get_all_messages_by_recipient(cls,id):
+        data = {
+            'id' : id
+            }
+        query = """
+        SELECT * FROM users AS sender 
+        JOIN messages 
+        ON sender.id = messages.sender_id 
+        JOIN users AS receiver 
+        ON messages.receiver_id = receiver.id
+        WHERE receiver.id = %(id)s
+        ;
+        """
+        results = connectToMySQL(cls.db).query_db(query, data)
+        inbox = []
+        for row in results:
+            populated_message = cls(row)
+            sender_data = {
+                'id' : row['id'],
+                'first_name' : row['first_name'],
+                'last_name' : row['last_name'],
+                'password' : row['password'],
+                'created_at' : row['created_at'],
+                'updated_at' : row['updated_at'],
+                'email' : row['email']
+            }
+            receiver_data = {
+                'id' : row['receiver.id'],
+                'first_name' : row['receiver.first_name'],
+                'last_name' : row['receiver.last_name'],
+                'password' : row['receiver.password'],
+                'created_at' : row['receiver.created_at'],
+                'updated_at' : row['receiver.updated_at'],
+                'email' : row['receiver.email']
+            }
+            populated_message.sender = user.User(sender_data)
+            populated_message.receiver = user.User(receiver_data)
+            inbox.append(populated_message)
+        return inbox
+
+        
     ##### UPDATE METHOD #####
     
     # Can't edit a message after it's been sent, silly goose. ;)
     
     ##### DELETE MESSAGE #####
     @classmethod
-    def delete_message_by_id(id):
-        pass
+    def delete_message_by_id(cls, id):
+        data = {
+            'id' : id
+        }
+        query = """
+            DELETE FROM messages
+            WHERE id = %(id)s;
+        """
+        connectToMySQL(cls.db).query_db(query, data)
+        return
     
     
     # @classmethod
@@ -171,17 +217,17 @@ class Message:
 
     # ##### DELETE METHOD #####
     
-    # @classmethod
-    # def delete(cls, id):
-    #     data = {
-    #         'id' : id
-    #     }
-    #     query = """
-    #         DELETE FROM posts
-    #         WHERE id = %(id)s;
-    #     """
-    #     connectToMySQL(cls.db).query_db(query, data)
-    #     return
+    @classmethod
+    def delete(cls, id):
+        data = {
+            'id' : id
+        }
+        query = """
+            DELETE FROM posts
+            WHERE id = %(id)s;
+        """
+        connectToMySQL(cls.db).query_db(query, data)
+        return
 
 
 

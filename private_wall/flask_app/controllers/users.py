@@ -7,7 +7,7 @@ bcrypt = Bcrypt(app)
 
 @app.route("/")
 def index():
-    if not session:
+    if "user_id" not in session:
         return render_template("index.html")
     return redirect("/home")
 
@@ -24,6 +24,7 @@ def register_new_user_frontend():
         'email' : request.form['email'],
         'password' : pw_hash
     }
+    print(data)
     user_id = user.User.create(data) # This passes back the id number of the last row inserted
     session['user_id'] = user_id
     return redirect("/home")
@@ -34,7 +35,7 @@ def register_new_user_frontend():
 def check_credentials():
     if not user.User.validate_login_inputs(request.form):
         return redirect('/')
-    one_user = user.User.get_user_by_email(request.form['email'])
+    one_user = user.User.get_user_by_email(request.form['email']) # Returns user object
     if not one_user:
         flash("Invalid email/password", "login")
         return redirect('/')
@@ -48,35 +49,30 @@ def check_credentials():
 
 @app.route("/home")
 def home_frontend():
-    if not session:
+    print(session)
+    if "user_id" not in session:
         return redirect('/')
-    one_user = user.User.get_one_user_by_id(session['user_id'])
-    all_posts = post.Post.get_all_posts()
-    return render_template('dojo_wall.html', one_user = one_user, all_posts = all_posts)
+    all_users = user.User.get_all_users_minus_current_user(session['user_id'])  # This loads in the current user
+    one_user = user.User.get_one_user_by_id(session['user_id'])                 # This loads in everyone else
+    one_user.inbox = message.Message.get_all_messages_by_recipient(one_user.id) # this one gets everything in the inbox
+    return render_template('dojo_wall.html', one_user = one_user, all_users = all_users)
 
-##### POST ROUTES #####
 
-@app.route("/make_post", methods=["POST"])
-def make_post_frontend():
+
+##### MESSAGE ROUTES #####
+
+@app.route("/send_message", methods=["POST"])
+def send_message_frontend():
     data = {
-        'content' : request.form['content'],
-        'user_id' : int(request.form['user_id']),
+        'sender_id' : session['user_id'],
+        'receiver_id' : request.form['receiver_id'],
+        'content' : request.form['content']
     }
-    if not post.Post.validate_new_post(data):
-        return redirect("/home")
-    post.Post.create(data)
-    return redirect("/home")
-
-
-##### DELETE POST ROUTE #####
-
-@app.route('/delete', methods=["POST"])
-def delete_post():
-    # I have to do this as a form, if I put the variable in the route it would be chaos
-    post.Post.delete(request.form['post_id'])
+    message.Message.send_message(data)
+    flash("Message sent!", "send_message")
     return redirect('/home')
-
-
+    
+    
 
 
 ##### LOGOUT ROUTE #####
@@ -85,3 +81,4 @@ def delete_post():
 def logout():
     session.clear()
     return redirect('/')
+
