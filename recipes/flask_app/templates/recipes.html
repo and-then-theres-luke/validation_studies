@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello, {{one_user.first_name}}!</h1>
+    <form action="/create">
+        <button type="submit">Create A New Recipe</button>
+    </form>
+    <form action="/logout">
+        <button type="submit">Logout</button>
+    </form>
+    <h3>All Posted Recipes:</h3>
+    <table>
+        <thead>
+            <th>Name</th>
+            <th>Under 30 Minutes</th>
+            <th>Posted By</th>
+            <th>Actions</th>
+        </thead>
+        <tbody>
+            {% for one_recipe in all_recipes%}
+            <tr>
+                <td>{{one_recipe.name}}</td>
+                {% if one_recipe.under_thirty_minutes == True%}
+                <td>Yes</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+                <td>{{one_recipe.creator.first_name}}</td>
+                <td>
+                    <p>
+                        <a href="/recipe/{{one_recipe.id}}">Show Recipe</a>
+                        {% if one_user.id == one_recipe.creator_id %}
+                        | <a href="/edit/{{one_recipe.id}}">Edit</a> | <a href="/delete/{{one_recipe.id}}">Delete</a> 
+                        {% endif %}
+                    </p>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

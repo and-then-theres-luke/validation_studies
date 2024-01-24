@@ -25,7 +25,7 @@ def register_new_user_frontend():
         'password' : pw_hash
     }
     print(data)
-    user_id = user.User.create(data) # This passes back the id number of the last row inserted
+    user_id = user.User.create_user(data) # This passes back the id number of the last row inserted
     session['user_id'] = user_id
     return redirect("/home")
 
@@ -55,7 +55,10 @@ def home_frontend():
     all_users = user.User.get_all_users_minus_current_user(session['user_id'])  # This loads in the current user
     one_user = user.User.get_one_user_by_id(session['user_id'])                 # This loads in everyone else
     one_user.inbox = message.Message.get_all_messages_by_recipient(one_user.id) # this one gets everything in the inbox
-    return render_template('dojo_wall.html', one_user = one_user, all_users = all_users)
+    x = 0
+    for item in one_user.inbox:
+        x += 1
+    return render_template('dojo_wall.html', one_user = one_user, all_users = all_users, x=x)
 
 
 
@@ -69,9 +72,12 @@ def send_message_frontend():
         'content' : request.form['content']
     }
     message.Message.send_message(data)
-    flash("Message sent!", "send_message")
     return redirect('/home')
     
+@app.route('/delete', methods=['POST'])
+def delete_message():
+    message.Message.delete_message_by_id(request.form['message_id'])
+    return redirect('/home')
     
 
 

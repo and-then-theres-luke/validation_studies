@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Share</title>
+</head>
+<body>
+    <main>
+        <div class="form-separation">
+            <div class="form_from_user">
+                <h1>Register</h1>
+                <!-- Flash messages for registration errors -->
+                {% with messages = get_flashed_messages(category_filter = ['register']) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p style="color:red">{{message}}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form action="/register" method="POST">
+                    <table>
+                        <tr>
+                            <td>
+                                <label for="first_name">First Name:</label>
+                            </td>
+                            <td>
+                                <input type="text" name="first_name" placeholder="First Name...">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="last_name">Last Name:</label>
+                            </td>
+                            <td>
+                                <input type="text" name="last_name" placeholder="Last Name...">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="email">Email:</label>
+                            </td>
+                            <td>
+                                <input type="email" name="email" placeholder="example@example.com">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="password">Password:</label>
+                            </td>
+                            <td>
+                                <input type="password" name="password">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="confirm_password">Confirm Password:</label>
+                            </td>
+                            <td>
+                                <input type="password" name="confirm_password">
+                            </td>
+                        </tr>
+                    </table>
+                    <button class="btn btn-primary" type="submit">Submit Entry</button>
+                </form>
+            <div class="form_from_user">
+                <h1>Login</h1>
+                <!-- Flash messages for login errors -->
+                {% with messages = get_flashed_messages(category_filter = ['login']) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p style="color:red">{{message}}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <!-- Flash messages for when a user tries to access pages without being logged in -->
+                {% with messages = get_flashed_messages(category_filter = ['access']) %}
+                    {% for message in messages %}
+                        <p style="color:red">{{message}}</p>
+                    {% endfor %}
+                {% endwith %}
+                <!-- Login  -->
+                <form action="/login" method="POST">
+                    <table>
+                        <tr>
+                            <td>
+                                <label for="email">Email:</label>
+                            </td>
+                            <td>
+                                <input type="email" name="email" placeholder="example@example.com">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="password">Password:</label>
+                            </td>
+                            <td>
+                                <input type="password" name="password">
+                            </td>
+                        </tr>
+                    </table>
+                    <button class="btn btn-primary" type="submit">Login</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

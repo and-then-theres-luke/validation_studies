@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Share</title>
+</head>
+<body>
+    <h1>Edit Recipe!</h1>
+    {% with messages = get_flashed_messages(category_filter = ['recipe']) %}
+            {% for message in messages %}
+                <p style="color:red">{{message}}</p>
+            {% endfor %}
+    {% endwith %}
+    <table>
+        <form action="/edit/process" method="POST">
+            <input type="hidden" name="id" value="{{one_recipe.id}}">
+            <input type="hidden" name="created_at" value="{{one_recipe.created_at}}">
+            <input type="hidden" name="updated_at" value="{{one_recipe.updated_at}}">
+            <input type="hidden" name="creator_id" value="{{one_recipe.creator_id}}">
+            <tr>
+                <td>
+                    <label for="name">Name</label>
+                </td>
+                <td>
+                    <input type="text" name="name" value="{{one_recipe.name}}"> 
+                    <!-- HEY HOMIE don't forget to update the placeholders for the recipe getting passed in -->
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="description">Description:</label>
+                </td>
+                <td>
+                    <textarea name="description" id="description" cols="30" rows="10">{{one_recipe.description}}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="instructions">Instructions</label>
+                </td>
+                <td>
+                    <textarea name="instructions" id="instructions" cols="30" rows="10">{{one_recipe.instructions}}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="made_on">Date Cooked:</label>
+                </td>
+                <td>
+                    <input type="date" name="made_on" value="{{one_recipe.made_on}}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="under_thirty_minutes">Under 30 minutes?</label>
+                </td>
+                <td>
+                    <input type="radio" name="under_thirty_minutes" id="under_thirty_minutes_yes" value="1">
+                    <label for="under_thirty_minutes_yes">Yes</label>
+                    <input type="radio" name="under_thirty_minutes" id="under_thirty_minutes_no" value="0">
+                    <label for="under_thirty_minutes_no">No</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit">Submit Recipe</button>
+                </td>
+            </tr>
+        </form>
+            <tr>
+                <td>
+                    <a href="/home"><button>Return Home</button></a>
+                </td>
+            </tr>
+    </table>
+</body>
+</html>

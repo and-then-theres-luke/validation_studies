@@ -66,7 +66,15 @@ class Message:
         results = connectToMySQL(cls.db).query_db(query, data)
         inbox = []
         for row in results:
-            populated_message = cls(row)
+            message_data = {
+                'id' : row['messages.id'],
+                'content' : row['content'],
+                'receiver_id' : row['receiver_id'],
+                'sender_id' : row['sender_id'],
+                'created_at' : row['messages.created_at'],
+                'updated_at' : row['messages.updated_at']
+            }
+            populated_message = cls(message_data)
             sender_data = {
                 'id' : row['id'],
                 'first_name' : row['first_name'],
@@ -87,6 +95,7 @@ class Message:
             }
             populated_message.sender = user.User(sender_data)
             populated_message.receiver = user.User(receiver_data)
+            print("POPULATE MESSAGE:", populated_message)
             inbox.append(populated_message)
         return inbox
 
@@ -109,125 +118,7 @@ class Message:
         return
     
     
-    # @classmethod
-    # def get_all(cls):
-    #     query = "SELECT * FROM posts;"
-    #     results = connectToMySQL(cls.db).query_db(query) # The query always returns a list of dictionaries, think [{...},{...}] and these entries are locations in memory.
-    #     all_posts = []
-    #     for row in results:
-    #         all_posts.append(cls(row))
-    #     return all_posts
-    
-    # @classmethod
-    # def get_all_posts(cls):
-    #     query = """
-    #     SELECT * FROM posts
-    #     JOIN users
-    #     ON posts.user_id = users.id
-    #     ;
-    #     """
-    #     results = connectToMySQL(cls.db).query_db(query)
-    #     all_user_posts = []
-    #     for row in results:
-    #         one_post = cls(row)
-    #         one_post_author_info = {
-    #             "id" : row['users.id'],
-    #             "first_name" : row['first_name'],
-    #             "last_name" : row['last_name'],
-    #             "email" : row['email'],
-    #             "password" : row['password'],
-    #             "created_at" : row['users.created_at'],
-    #             "updated_at" : row['users.updated_at']
-    #         }
-    #         post_creator = user.User(one_post_author_info)
-    #         one_post.creator = post_creator
-    #         all_user_posts.append(one_post)
-    #     return all_user_posts
-        
-    # @classmethod
-    # def get_all_posts_by_user_id(cls, id):
-    #     data = {
-    #         'id' : id
-    #     }
-    #     query = """
-    #     SELECT * FROM posts
-    #     JOIN users
-    #     ON posts.user_id = users.id
-    #     WHERE users.id = %(id)s
-    #     ;
-    #     """
-    #     results = connectToMySQL(cls.db).query_db(query)
-    #     all_user_posts = []
-    #     for row in results:
-    #         one_post = cls(row)
-    #         one_post_info = {
-    #             "id" : row['posts.id'],
-    #             "content" : row['content'],
-    #             "created_at" : row['posts.created_at'],
-    #             "updated_at" : row['posts.updated_at']
-    #         }
-    #         post_creator_info = {
-    #             "id" : row['users.id'],
-    #             "first_name" : row['first_name'],
-    #             "last_name" : row['last_name'],
-    #             "email" : row['email'],
-    #             "password" : row['password'],
-    #             "created_at" : row['users.created_at'],
-    #             "updated_at" : row['users.updated_at']
-    #         }
-    #         post_creator = user.User(post_creator_info)
-    #         one_post.creator = post_creator
-    #         all_user_posts.append(one_post)
-    #     return results
 
-    # @classmethod
-    # def get_one_post_by_id(cls, id):
-    #     data = {
-    #         'id' : id
-    #     }
-    #     query = """
-    #         SELECT *
-    #         FROM posts
-    #         WHERE id = %(id)s
-    #         ;
-    #     """
-    #     one_post = connectToMySQL(cls.db).query_db(query, data) # The query always returns a list of dictionaries, think [{...},{...}] and these entries are locations in memory.
-    #     return cls(one_post[0])
-    
-    
-    
-    
-    
-    # ##### UPDATE METHOD #####
-    
-    # @classmethod
-    # def update(cls, data):
-    #     query = """
-    #         UPDATE posts
-    #         SET content = %(content)s
-    #         WHERE id = %(id)s
-    #         ;
-    #     """
-    #     results = connectToMySQL(cls.db).query_db(query, data)
-    #     return results
-
-
-
-
-
-    # ##### DELETE METHOD #####
-    
-    @classmethod
-    def delete(cls, id):
-        data = {
-            'id' : id
-        }
-        query = """
-            DELETE FROM posts
-            WHERE id = %(id)s;
-        """
-        connectToMySQL(cls.db).query_db(query, data)
-        return
 
 
 

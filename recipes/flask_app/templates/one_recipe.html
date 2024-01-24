@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Welcome, {{one_user.first_name}}</h1>
+    <a href="/home"><button>Return to All Recipes</button></a>
+    <form action="/logout">
+        <button type="submit">Logout</button>
+    </form>
+    <div>
+        <h2>{{one_recipe.name}}</h2>
+        <h4>Posted by: {{one_recipe.creator.first_name}}</h4>
+    </div>
+    <table>
+        <tr>
+            <td>
+                Description:
+            </td>
+            <td>
+                {{one_recipe.description}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Under 30 Minutes?
+            </td>
+            <td>
+                {{one_recipe.under_thirty_minutes}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Instructions:
+            </td>
+            <td>
+                {{one_recipe.instructions}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Date Made:
+            </td>
+            <td>
+                {{one_recipe.made_on}}
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
